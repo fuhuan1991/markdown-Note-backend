@@ -1,15 +1,17 @@
 const express = require('express');
-const repository = require('./repository.js');
+const dataOperations = require('./repositories/index.js');
 
 const app = express()
 const port = 3000;
+const { getUserById } = dataOperations;
+
 
 app.get('/', (req, res) => res.send('Welcome!'));
 
-app.get('/api/:name', async (req, res) => {
-    const name = req.params.name;
-    const result = await repository.getMusicBArtist(name);
-    res.send(result)
+app.get('/api/user/:id', async (req, res) => {
+    const id = req.params.id;
+    const result = await getUserById(id);
+    res.send(result);
 });
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))
