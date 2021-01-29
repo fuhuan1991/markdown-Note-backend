@@ -5,16 +5,23 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js",
-    "deploy": "npm install && node index.js"
+    "start": "tsc && node dist/index.js",
+    "deploy": "npm install && start",
+    "tsc": "tsc"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "express": "^4.17.1"
+    "@types/aws-sdk": "^2.7.0",
+    "@types/express": "^4.16.1",
+    "@types/node": "^14.14.22",
+    "express": "^4.16.4",
+    "tslint": "^5.12.1",
+    "typescript": "^3.3.3"
   },
   "dependencies": {
     "@aws-sdk/client-dynamodb": "^3.3.0",
-    "aws-sdk": "^2.830.0"
+    "aws-sdk": "^2.830.0",
+    "uuid": "^8.3.2"
   }
 }
