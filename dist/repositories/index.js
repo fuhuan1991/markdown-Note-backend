@@ -14,7 +14,7 @@ aws_sdk_1.default.config.update(AWSConfig);
 const docClient = new aws_sdk_1.default.DynamoDB.DocumentClient();
 const { getUserById, createUser, updateUser, deleteUserById, } = userRepo_1.default;
 const { createDir, getDirById, getUserDirs, updateDir, deleteDirById, getDirsByName, } = dirRepo_1.default;
-const { createNote, getNoteById, getNotesInDir, getNotesInDirByTitle, updateNote, } = noteRepo_1.default;
+const { createNote, getNoteById, getNotesInDir, getNotesInDirByTitle, getUserNotes, updateNote, deleteNoteById, } = noteRepo_1.default;
 const { createContent, getContentById, updateContent, deleteContentById } = contentRepo_1.default;
 exports.default = {
     getUserById: getUserById.bind(this, docClient),
@@ -31,10 +31,12 @@ exports.default = {
     getNoteById: getNoteById.bind(this, docClient),
     getNotesInDir: getNotesInDir.bind(this, docClient),
     getNotesInDirByTitle: getNotesInDirByTitle.bind(this, docClient),
+    getUserNotes: getUserNotes.bind(this, docClient),
     updateNote: updateNote.bind(this, docClient),
     createContent: createContent.bind(this, docClient),
     getContentById: getContentById.bind(this, docClient),
     updateContent: updateContent.bind(this, docClient),
     deleteContentById: deleteContentById.bind(this, docClient),
+    deleteNoteById: deleteNoteById.bind(this, docClient),
 };
 //# sourceMappingURL=index.js.map

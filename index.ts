@@ -1,5 +1,6 @@
 import express from 'express';
 import { v4 as uuidv4 } from 'uuid';
+import cors from 'cors';
 import dataOperations from './repositories/index.js';
 import config from './config';
 
@@ -25,12 +26,15 @@ const {
   getNoteById,
   getNotesInDir,
   getNotesInDirByTitle,
+  getUserNotes,
   updateNote,
   deleteNoteById,
 } = dataOperations;
 const ROOT = 'ROOT';
 
+
 app.use(express.json());
+app.use(cors());
 
 app.get('/', (req: express.Request, res: express.Response) => res.send('Welcome!'));
 
@@ -328,6 +332,26 @@ app.delete('/api/content/:id', async (req: express.Request, res: express.Respons
   deleteContentById(id).then(
     (result) => {
       res.send(result);
+    }, 
+    (err) => {
+      res.status(500).send(err)
+    }
+  );
+});
+
+// get menu data for a user
+app.get('/api/menu/:user_id', async (req: express.Request, res: express.Response) => {
+  const user_id = req.params.user_id;
+
+  await Promise.all([
+    getUserDirs(user_id),
+    getUserNotes(user_id)
+  ]).then(
+    (result) => {
+      res.send({
+        notebooks: result[0],
+        notes: result[1],
+      });
     }, 
     (err) => {
       res.status(500).send(err)

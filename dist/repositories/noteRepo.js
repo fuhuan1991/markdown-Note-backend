@@ -100,6 +100,30 @@ function getNotesInDirByTitle(docClient, user_id, parent_id, title) {
         });
     });
 }
+function getUserNotes(docClient, user_id) {
+    const params = {
+        TableName: tableName,
+        FilterExpression: "#user_id = :user_id",
+        ExpressionAttributeNames: {
+            "#user_id": "user_id",
+        },
+        ExpressionAttributeValues: {
+            ":user_id": user_id,
+        }
+    };
+    return new Promise((resolve, reject) => {
+        docClient.scan(params, function (err, data) {
+            if (err) {
+                console.error("Unable to query. Error:", JSON.stringify(err, null, 2));
+                reject(err);
+            }
+            else {
+                console.log("Query succeeded.");
+                resolve(data.Items);
+            }
+        });
+    });
+}
 function updateNote(docClient, note) {
     const { id, title, last_update } = note;
     const params = {
@@ -128,11 +152,33 @@ function updateNote(docClient, note) {
         });
     });
 }
+function deleteNoteById(docClient, id) {
+    const params = {
+        TableName: tableName,
+        Key: {
+            "id": id,
+        }
+    };
+    return new Promise((resolve, reject) => {
+        docClient.delete(params, function (err, data) {
+            if (err) {
+                console.error("Unable to delete. Error:", JSON.stringify(err, null, 2));
+                reject(err);
+            }
+            else {
+                console.log("successfully deleted");
+                resolve('successfully deleted');
+            }
+        });
+    });
+}
 exports.default = {
     createNote,
     getNoteById,
     getNotesInDir,
     getNotesInDirByTitle,
+    getUserNotes,
     updateNote,
+    deleteNoteById,
 };
 //# sourceMappingURL=noteRepo.js.map

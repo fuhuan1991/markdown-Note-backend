@@ -32,6 +32,7 @@ const {
   getNoteById,
   getNotesInDir,
   getNotesInDirByTitle,
+  getUserNotes,
   updateNote,
   deleteNoteById,
 } = noteOperations;
@@ -58,6 +59,7 @@ export default {
   getNoteById: getNoteById.bind(this, docClient),
   getNotesInDir: getNotesInDir.bind(this, docClient),
   getNotesInDirByTitle: getNotesInDirByTitle.bind(this, docClient),
+  getUserNotes: getUserNotes.bind(this, docClient),
   updateNote: updateNote.bind(this, docClient),
   createContent: createContent.bind(this, docClient),
   getContentById: getContentById.bind(this, docClient),

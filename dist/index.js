@@ -13,13 +13,15 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const uuid_1 = require("uuid");
+const cors_1 = __importDefault(require("cors"));
 const index_js_1 = __importDefault(require("./repositories/index.js"));
 const config_1 = __importDefault(require("./config"));
 const app = express_1.default();
 const { PORT } = config_1.default;
-const { getUserById, createUser, updateUser, deleteUserById, createDir, getDirById, getUserDirs, updateDir, deleteDirById, getDirsByName, createContent, getContentById, updateContent, deleteContentById, createNote, getNoteById, getNotesInDir, getNotesInDirByTitle, updateNote, } = index_js_1.default;
+const { getUserById, createUser, updateUser, deleteUserById, createDir, getDirById, getUserDirs, updateDir, deleteDirById, getDirsByName, createContent, getContentById, updateContent, deleteContentById, createNote, getNoteById, getNotesInDir, getNotesInDirByTitle, getUserNotes, updateNote, deleteNoteById, } = index_js_1.default;
 const ROOT = 'ROOT';
 app.use(express_1.default.json());
+app.use(cors_1.default());
 app.get('/', (req, res) => res.send('Welcome!'));
 // get a user by id
 app.get('/api/user/:id', (req, res) => __awaiter(this, void 0, void 0, function* () {
@@ -187,6 +189,15 @@ app.put('/api/note', (req, res) => __awaiter(this, void 0, void 0, function* () 
         });
     }
 }));
+// delete a note
+app.delete('/api/note/:id', (req, res) => __awaiter(this, void 0, void 0, function* () {
+    const id = req.params.id;
+    deleteNoteById(id).then((result) => {
+        res.send(result);
+    }, (err) => {
+        res.status(500).send(err);
+    });
+}));
 // create a new content
 app.post('/api/content', (req, res) => __awaiter(this, void 0, void 0, function* () {
     const id = uuid_1.v4();
@@ -222,6 +233,21 @@ app.delete('/api/content/:id', (req, res) => __awaiter(this, void 0, void 0, fun
     const id = req.params.id;
     deleteContentById(id).then((result) => {
         res.send(result);
+    }, (err) => {
+        res.status(500).send(err);
+    });
+}));
+// get menu data for a user
+app.get('/api/menu/:user_id', (req, res) => __awaiter(this, void 0, void 0, function* () {
+    const user_id = req.params.user_id;
+    yield Promise.all([
+        getUserDirs(user_id),
+        getUserNotes(user_id)
+    ]).then((result) => {
+        res.send({
+            notebooks: result[0],
+            notes: result[1],
+        });
     }, (err) => {
         res.status(500).send(err);
     });

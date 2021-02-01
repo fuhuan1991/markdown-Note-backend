@@ -134,6 +134,31 @@ function getNotesInDirByTitle(docClient, user_id: string, parent_id: string, tit
   });
 }
 
+function getUserNotes(docClient, user_id: string): Promise<Array<NOTE>> {
+  const params = {
+    TableName : tableName,
+    FilterExpression: "#user_id = :user_id",
+    ExpressionAttributeNames: {
+      "#user_id": "user_id",
+    },
+    ExpressionAttributeValues: {
+      ":user_id": user_id,
+    }
+  };
+
+  return new Promise((resolve, reject) => {
+    docClient.scan(params, function(err, data: SCAN_NOTE_RESULT) {
+      if (err) {
+        console.error("Unable to query. Error:", JSON.stringify(err, null, 2));
+        reject(err);
+      } else {
+        console.log("Query succeeded.");
+        resolve(data.Items);
+      }
+    });
+  });
+}
+
 function updateNote(docClient, note: NOTE): Promise<NOTE> {
 
   const { id, title, last_update } = note;
@@ -193,6 +218,7 @@ export default {
   getNoteById,
   getNotesInDir,
   getNotesInDirByTitle,
+  getUserNotes,
   updateNote,
-  deleteNoteById
+  deleteNoteById,
 }
