@@ -59,7 +59,7 @@ function getContentById(docClient, id: string): Promise<CONTENT> {
         reject(err);
       } else {
         console.log("Query succeeded.");
-        console.log(data);
+        // console.log(data);
         resolve(data.Item);
       }
     });
@@ -92,7 +92,7 @@ function updateContent(docClient, content: CONTENT): Promise<CONTENT> {
         reject(err);
       } else {
         console.log("Update succeeded.");
-        console.log(data);
+        // console.log(data);
         resolve(content);
       }
     });
