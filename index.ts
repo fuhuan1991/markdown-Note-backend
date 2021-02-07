@@ -32,7 +32,6 @@ const {
 } = dataOperations;
 const ROOT = 'ROOT';
 
-
 app.use(express.json());
 app.use(cors());
 
@@ -107,7 +106,7 @@ app.get('/api/dir/:id', async (req: express.Request, res: express.Response) => {
 });
 
 // get a list of dirs by user id
-app.get('/api/dir/:user_id', async (req: express.Request, res: express.Response) => {
+app.get('/api/user_dir/:user_id', async (req: express.Request, res: express.Response) => {
   const user_id = req.params.user_id;
   getUserDirs(user_id).then(
     (result) => {
@@ -134,6 +133,7 @@ app.put('/api/dir', async (req: express.Request, res: express.Response) => {
       ...req.body,
       last_update: time,
     };
+
     updateDir(data).then(
       (result) => {
         res.send(result);
@@ -166,7 +166,7 @@ app.delete('/api/dir/:id', async (req: express.Request, res: express.Response) =
       res.status(500).send(err)
     }
   );
-// console.log({notes})
+
   for (let note of notes) {
     await deleteNoteAndContent(note.id, res);
   }
@@ -328,6 +328,7 @@ app.post('/api/content', async (req: express.Request, res: express.Response) => 
     create_time: time,
     last_update: time,
   };
+
   createContent(data).then(
     (result) => {
       res.send(result);
@@ -359,6 +360,7 @@ app.put('/api/content', async (req: express.Request, res: express.Response) => {
     ...req.body,
     last_update: time,
   };
+  
   updateContent(data).then(
     (result) => {
       res.send(result);
