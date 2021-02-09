@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "npm run tsc && pm2 start dist/index.js",
+    "start": "npm run tsc && pm2 start dist/server_RE.js",
     "deploy": "npm install && npm start",
     "tsc": "node --max-old-space-size=8192 node_modules/typescript/bin/tsc"
   },
