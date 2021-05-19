@@ -8,7 +8,7 @@
     "start": "npm run tsc && forever start dist/server_RE.js",
     "dev": "npm run tsc && node dist/server_RE.js",
     "deploy": "npm run tsc && forever start dist/server_RE.js",
-    "tsc": "node --max-old-space-size=1024 node_modules/typescript/bin/tsc"
+    "tsc": "node --max-old-space-size=8192 node_modules/typescript/bin/tsc"
   },
   "author": "",
   "license": "ISC",
