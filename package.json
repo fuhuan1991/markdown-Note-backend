@@ -1,7 +1,7 @@
 {
-  "name": "dockerize-node-application",
+  "name": "MD-Note-backend",
   "version": "1.0.0",
-  "description": "How to deploy a NodeJS application in Docker Container",
+  "description": "MD-Note-backend",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
