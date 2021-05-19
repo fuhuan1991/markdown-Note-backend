@@ -5,10 +5,10 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "npm run tsc && pm2 start dist/server_RE.js",
+    "start": "npm run tsc && forever start dist/server_RE.js",
     "dev": "npm run tsc && node dist/server_RE.js",
-    "deploy": "npm install && npm start",
-    "tsc": "node --max-old-space-size=8192 node_modules/typescript/bin/tsc"
+    "deploy": "npm run tsc && forever start dist/server_RE.js",
+    "tsc": "node --max-old-space-size=1024 node_modules/typescript/bin/tsc"
   },
   "author": "",
   "license": "ISC",
@@ -24,6 +24,7 @@
     "@aws-sdk/client-dynamodb": "^3.3.0",
     "aws-sdk": "^2.830.0",
     "cors": "^2.8.5",
+    "forever": "^3.0.4",
     "uuid": "^8.3.2"
   }
 }
