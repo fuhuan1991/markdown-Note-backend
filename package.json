@@ -7,7 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "npm run tsc && forever start dist/server_RE.js",
     "dev": "npm run tsc && node dist/server_RE.js",
-    "deploy": "forever restart dist/server_RE.js && forever start dist/server_RE.js",
+    "deploy": "forever stop dist/server_RE.js && forever start dist/server_RE.js",
+    "initial_deploy": "forever start dist/server_RE.js",
     "tsc": "node node_modules/typescript/bin/tsc",
     "build": "npm run tsc"
   },
