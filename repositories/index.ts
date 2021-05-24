@@ -5,6 +5,8 @@ import noteOperations from './noteRepo';
 import contentOperations from './contentRepo';
 import config from '../config';
 
+// The Repositories folder stores all sorts of functions for DynamoDB
+
 const { AWSConfig } = config;
 
 AWS.config.update(AWSConfig);

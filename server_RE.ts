@@ -4,13 +4,6 @@ import cors from 'cors';
 import dataOperations from './repositories/index.js';
 import config from './config';
 import initialText from './noteTemplates/initialNote';
-import Client_size_vs_Server_side from './noteTemplates/Client_size_vs_Server_side';
-import higher_order_component from './noteTemplates/higher_order_component';
-import TypeScript from './noteTemplates/TypeScript';
-import Dune from './noteTemplates/Dune';
-import New_England_Aquarium from './noteTemplates/New_England_Aquarium';
-import intro from './noteTemplates/intro';
-import todos from './noteTemplates/todos';
 import initialization from './initialization.js';
 
 const app: express.Application = express();
