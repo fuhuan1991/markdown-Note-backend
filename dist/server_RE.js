@@ -14,16 +14,20 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const uuid_1 = require("uuid");
 const cors_1 = __importDefault(require("cors"));
-const index_js_1 = __importDefault(require("./repositories/index.js"));
+const index_js_1 = __importDefault(require("./s3_bucket/index.js"));
+const index_js_2 = __importDefault(require("./repositories/index.js"));
 const config_1 = __importDefault(require("./config"));
 const initialNote_1 = __importDefault(require("./noteTemplates/initialNote"));
 const initialization_js_1 = __importDefault(require("./initialization.js"));
+const express_fileupload_1 = __importDefault(require("express-fileupload"));
 const app = express_1.default();
-const { PORT } = config_1.default;
-const { getUserById, createUser, updateUser, deleteUserById, createDir, getDirById, getUserDirs, updateDir, deleteDirById, getDirsByName, createContent, getContentById, updateContent, deleteContentById, createNote, getNoteById, getNotesInDir, getNotesInDirByTitle, getUserNotes, updateNote, deleteNoteById, } = index_js_1.default;
+const { PORT, UPLOAD_FILE_NAME_IN_REQUEST } = config_1.default;
+const { getUserById, createUser, updateUser, deleteUserById, createDir, getDirById, getUserDirs, updateDir, deleteDirById, getDirsByName, createContent, getContentById, updateContent, deleteContentById, createNote, getNoteById, getNotesInDir, getNotesInDirByTitle, getUserNotes, updateNote, deleteNoteById, } = index_js_2.default;
+const { s3BucketUpload, } = index_js_1.default;
 const ROOT = 'ROOT';
 app.use(express_1.default.json());
 app.use(cors_1.default());
+app.use(express_fileupload_1.default());
 app.get('/', (req, res) => res.send('Welcome!'));
 // get a user by id
 app.get('/api/user/:id', (req, res) => __awaiter(this, void 0, void 0, function* () {
@@ -280,6 +284,15 @@ app.get('/api/menu/:user_id', (req, res) => __awaiter(this, void 0, void 0, func
 app.get('/api/initialize/:user_id', (req, res) => __awaiter(this, void 0, void 0, function* () {
     const user_id = req.params.user_id;
     initialization_js_1.default(user_id, res);
+}));
+// receive upload img
+app.post(`/api/upload_image`, (req, res) => __awaiter(this, void 0, void 0, function* () {
+    const file = req.files[UPLOAD_FILE_NAME_IN_REQUEST];
+    s3BucketUpload(file).then((result) => {
+        res.send(result);
+    }, (err) => {
+        res.status(500).send(err);
+    });
 }));
 app.listen(PORT, () => console.log(`Example app listening on port ${PORT}!`));
 //# sourceMappingURL=server_RE.js.map

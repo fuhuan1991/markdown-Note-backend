@@ -9,9 +9,9 @@ const dirRepo_1 = __importDefault(require("./dirRepo"));
 const noteRepo_1 = __importDefault(require("./noteRepo"));
 const contentRepo_1 = __importDefault(require("./contentRepo"));
 const config_1 = __importDefault(require("../config"));
+// The Repositories folder stores all sorts of functions for DynamoDB
 const { AWSConfig } = config_1.default;
-aws_sdk_1.default.config.update(AWSConfig);
-const docClient = new aws_sdk_1.default.DynamoDB.DocumentClient();
+const docClient = new aws_sdk_1.default.DynamoDB.DocumentClient(AWSConfig);
 const { getUserById, createUser, updateUser, deleteUserById, } = userRepo_1.default;
 const { createDir, getDirById, getUserDirs, updateDir, deleteDirById, getDirsByName, } = dirRepo_1.default;
 const { createNote, getNoteById, getNotesInDir, getNotesInDirByTitle, getUserNotes, updateNote, deleteNoteById, } = noteRepo_1.default;

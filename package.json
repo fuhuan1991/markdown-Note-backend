@@ -24,8 +24,10 @@
   },
   "dependencies": {
     "@aws-sdk/client-dynamodb": "^3.3.0",
+    "@types/buffers": "^0.1.31",
     "aws-sdk": "^2.830.0",
     "cors": "^2.8.5",
+    "express-fileupload": "^1.2.1",
     "forever": "^3.0.4",
     "uuid": "^8.3.2"
   }

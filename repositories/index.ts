@@ -8,10 +8,7 @@ import config from '../config';
 // The Repositories folder stores all sorts of functions for DynamoDB
 
 const { AWSConfig } = config;
-
-AWS.config.update(AWSConfig);
-
-const docClient = new AWS.DynamoDB.DocumentClient();
+const docClient = new AWS.DynamoDB.DocumentClient(AWSConfig);
 
 const {
   getUserById,

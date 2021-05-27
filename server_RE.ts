@@ -1,13 +1,15 @@
 import express from 'express';
 import { v4 as uuidv4 } from 'uuid';
 import cors from 'cors';
+import s3BucketOperations from './s3_bucket/index.js';
 import dataOperations from './repositories/index.js';
 import config from './config';
 import initialText from './noteTemplates/initialNote';
 import initialization from './initialization.js';
+import fileUpload from 'express-fileupload';
 
 const app: express.Application = express();
-const { PORT } = config;
+const { PORT, UPLOAD_FILE_NAME_IN_REQUEST } = config;
 const {
   getUserById,
   createUser,
@@ -31,10 +33,16 @@ const {
   updateNote,
   deleteNoteById,
 } = dataOperations;
+
+const {
+  s3BucketUpload,
+} = s3BucketOperations;
+
 const ROOT = 'ROOT';
 
 app.use(express.json());
 app.use(cors());
+app.use(fileUpload());
 
 app.get('/', (req: express.Request, res: express.Response) => res.send('Welcome!'));
 
@@ -410,5 +418,20 @@ app.get('/api/initialize/:user_id', async (req: express.Request, res: express.Re
   const user_id = req.params.user_id;
   initialization(user_id, res);
 });
+
+// receive upload img
+app.post(`/api/upload_image`, async (req: any, res: express.Response) => {
+  const file = req.files[UPLOAD_FILE_NAME_IN_REQUEST];
+
+  s3BucketUpload(file).then(
+    (result) => {
+      res.send(result);
+    }, 
+    (err) => {
+      res.status(500).send(err)
+    }
+  );
+
+})
 
 app.listen(PORT, () => console.log(`Example app listening on port ${PORT}!`))
