@@ -11,6 +11,7 @@ const s3 = new aws_sdk_1.default.S3();
 function s3BucketUpload(s3, file) {
     console.log("--------incoming file:");
     console.log(file);
+    // Only process image files
     if (!typeCheck(file.mimetype))
         return Promise.reject("Type error! Please upload a image file.");
     const buffer = file.data;
